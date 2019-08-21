@@ -9,10 +9,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.andreyalves.projetofullstack.domian.Categoria;
 import com.andreyalves.projetofullstack.domian.Cidade;
+import com.andreyalves.projetofullstack.domian.Cliente;
+import com.andreyalves.projetofullstack.domian.Endereco;
 import com.andreyalves.projetofullstack.domian.Estado;
 import com.andreyalves.projetofullstack.domian.Produto;
+import com.andreyalves.projetofullstack.domian.enums.TipoCliente;
 import com.andreyalves.projetofullstack.repositories.CategoriaRepository;
 import com.andreyalves.projetofullstack.repositories.CidadeRepository;
+import com.andreyalves.projetofullstack.repositories.ClienteRepository;
+import com.andreyalves.projetofullstack.repositories.EnderecoRepository;
 import com.andreyalves.projetofullstack.repositories.EstadoRepository;
 import com.andreyalves.projetofullstack.repositories.ProdutoRepository;
 
@@ -27,6 +32,10 @@ public class ProjetofullstackApplication implements CommandLineRunner {
 	private EstadoRepository estadoRepository;
 	@Autowired
 	private CidadeRepository cidadeRepository;
+	@Autowired
+	private ClienteRepository clienteRepository;
+	@Autowired
+	private EnderecoRepository enderecoRepository;
 	
 	
 
@@ -68,6 +77,21 @@ public class ProjetofullstackApplication implements CommandLineRunner {
 		
 		estadoRepository.saveAll(Arrays.asList(est1, est2));
 		cidadeRepository.saveAll(Arrays.asList(c1, c2, c3));
+		
+		
+		Cliente cli1 = new Cliente(null, "Maria Silva", "maria@gmail.com", "38754378609" , TipoCliente.PESSOAFISICA);
+		
+		cli1.getTelefones().addAll(Arrays.asList("3222888", "9893888"));
+		
+		Endereco e1 = new Endereco(null, "Rua Flores", "300" , "apto 300", "Jardim", "03399933", cli1, c1);
+		Endereco e2 = new Endereco(null, "Avenida Mattos", "105", "Sala 300", "Centro" , "12345678", cli1 , c2);
+		
+		cli1.getEnderecos().addAll(Arrays.asList(e1, e2));
+		
+		clienteRepository.saveAll(Arrays.asList(cli1));
+		enderecoRepository.saveAll(Arrays.asList(e1, e2));
+		
+		
 		
 	}
 
